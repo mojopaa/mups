@@ -34,15 +34,124 @@ def get_user_email_from_git() -> tuple[str, str]:
 @serde
 @dataclass
 class RingInfo:
-    """Mostly used in MojoPI"""
+    """Confrom mojo core-metadata"""
+
     name: str
     version: str
-    platform: str = get_platform()
+    metadata_version: str = "0.1"
+    # Below are optional
+    dynamic: list[str] | None = None
+    platforms: list[str] | None = None
+    supported_platforms: list[str] | None = None
+    summary: str = ""
+    description: str = ""
+    description_content_type: str = "text/markdown"
+    keywords: list[str] | None = None
+    home_page: str = ""
+    download_url: str = ""
     author: str = get_user_email_from_git()[0]
     author_email: str = get_user_email_from_git()[1]
+    maintainer: str = get_user_email_from_git()[0]
+    maintainer_email: str = get_user_email_from_git()[1]
+    license: str = ""
+    classifiers: list[str] | None = None
     requires_dist: list[str] | None = None
     requires_mojo: str = ""
+    requires_external: list[str] | None = None
+    project_urls: dict[str, str] | None = None
+    provides_extra: list[str] | None = None
+    provides_dist: list[str] | None = None
+    obsoletes_dist: list[str] | None = None
     file_name: str = ""
+
+
+def ring_info_json(
+    name: str,
+    version: str,
+    metadata_version: str = "0.1",
+    # Below are optional
+    dynamic: list[str] | None = None,
+    platforms: list[str] | None = None,
+    supported_platforms: list[str] | None = None,
+    summary: str = "",
+    description: str = "",
+    description_content_type: str = "text/markdown",
+    keywords: list[str] | None = None,
+    home_page: str = "",
+    download_url: str = "",
+    author: str = get_user_email_from_git()[0],
+    author_email: str = get_user_email_from_git()[1],
+    maintainer: str = get_user_email_from_git()[0],
+    maintainer_email: str = get_user_email_from_git()[1],
+    license: str = "",
+    classifiers: list[str] | None = None,
+    requires_dist: list[str] | None = None,
+    requires_mojo: str = "",
+    requires_external: list[str] | None = None,
+    project_urls: dict[str, str] | None = None,
+    provides_extra: list[str] | None = None,
+    provides_dist: list[str] | None = None,
+    obsoletes_dist: list[str] | None = None,
+    file_name: str = "",
+    use_get_platform=True,
+    create_filename=True,
+):
+    """
+    Generates the JSON representation of the ring information.
+    It is the public API for initing RingInfo.
+
+
+    Returns:
+        str: The JSON representation of the ring information.
+    """
+    if use_get_platform:
+        if platforms is None:
+            platforms = [get_platform()]
+        if supported_platforms is None:
+            supported_platforms = [get_platform()]
+
+    if create_filename and not file_name:
+        file_name = ring_file_name(name=name, version=version, platforms=platforms)
+
+    assert is_valid_name(name), f"Name does not conform PEP 508."
+    if author_email:
+        assert is_valid_email(author_email), f"Email format does not follow RFC 5322."
+    if maintainer_email:
+        assert is_valid_email(
+            maintainer_email
+        ), f"Email format does not follow RFC 5322."
+    if version:
+        assert is_valid_version(version), f"Name does not conform PEP 440."
+
+    ring_info = RingInfo(
+        name=name,
+        version=version,
+        metadata_version=metadata_version,
+        dynamic=dynamic,
+        platforms=platforms,
+        supported_platforms=supported_platforms,
+        summary=summary,
+        description=description,
+        description_content_type=description_content_type,
+        keywords=keywords,
+        home_page=home_page,
+        download_url=download_url,
+        author=author,
+        author_email=author_email,
+        maintainer=maintainer,
+        maintainer_email=maintainer_email,
+        license=license,
+        classifiers=classifiers,
+        requires_dist=requires_dist,
+        requires_mojo=requires_mojo,
+        requires_external=requires_external,
+        project_urls=project_urls,
+        provides_extra=provides_extra,
+        provides_dist=provides_dist,
+        obsoletes_dist=obsoletes_dist,
+        file_name=file_name,
+    )
+    return to_json(ring_info)
 
 
 # Follow https://peps.python.org/pep-0508/#names
@@ -92,3 +201,8 @@ EMAIL_RE = r'(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)
 
 def is_valid_email(email: str) -> bool:
     return bool(re.match(EMAIL_RE, email))
+
+
+def ring_file_name(name, version, platforms):
+    # TODO: reference: https://github.com/pypa/wheel/blob/main/src/wheel/vendored/packaging/tags.py
+    return "-".join([name, version, *platforms]) + ".ring"

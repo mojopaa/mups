@@ -4,6 +4,7 @@ from .core import (
     is_valid_email,
     is_valid_name,
     is_valid_version,
+    ring_info_json,
 )
 from .utils import normalize_name
 

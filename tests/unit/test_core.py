@@ -1,11 +1,14 @@
 import shutil
 
+import pytest
+
 from mups.core import (
     RingInfo,
     get_user_email_from_git,
     is_valid_email,
     is_valid_name,
     is_valid_version,
+    ring_info_json,
 )
 
 
@@ -55,3 +58,13 @@ def test_get_user_email_from_git():
         assert get_user_email_from_git()[1]
     else:
         assert get_user_email_from_git() == ("", "")
+
+
+def test_ring_info_json():
+    ring_info_json("test", "1")
+
+    with pytest.raises(AssertionError):
+        ring_info_json("*test", "1")  # Wrong name
+
+    with pytest.raises(AssertionError):
+        ring_info_json("test", "*1")  # Wrong version

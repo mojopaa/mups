@@ -6,7 +6,7 @@ groups = ["default", "dev"]
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:2c5ab7c063692b75940a7a2df279f90338ebdadd3f3676244cfbcc68385d2c38"
+content_hash = "sha256:35461dd49e0ca6b7ed748e14447474805df4119081efa27fc5087e56358b9066"
 
 [[package]]
 name = "appnope"
