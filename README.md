@@ -1,6 +1,6 @@
 # mups
 
-### Following PEPs
+### Following Standards
 
 - PEP 508: Package Names. `mups` has more stricter names only with lowercases and dashes.
 - PEP 440: Package Version
