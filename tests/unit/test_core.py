@@ -4,7 +4,7 @@ import pytest
 
 from mups.core import (
     RingInfo,
-    get_user_email_from_git,
+    get_username_email_from_git,
     is_valid_email,
     is_valid_name,
     is_valid_version,
@@ -51,13 +51,13 @@ def test_RingInfo():
         assert r.author_email
 
 
-def test_get_user_email_from_git():
+def test_get_username_email_from_git():
     git = shutil.which("git")
     if git:
-        assert get_user_email_from_git()[0]
-        assert get_user_email_from_git()[1]
+        assert get_username_email_from_git()[0]
+        assert get_username_email_from_git()[1]
     else:
-        assert get_user_email_from_git() == ("", "")
+        assert get_username_email_from_git() == ("", "")
 
 
 def test_ring_info_json():

@@ -9,7 +9,7 @@ from serde import serde
 from serde.json import to_json
 
 
-def get_user_email_from_git() -> tuple[str, str]:
+def get_username_email_from_git() -> tuple[str, str]:
     """Get username and email from git config.
     Return empty if not configured or git is not found.
     """
@@ -49,10 +49,10 @@ class RingInfo:
     keywords: list[str] | None = None
     home_page: str = ""
     download_url: str = ""
-    author: str = get_user_email_from_git()[0]
-    author_email: str = get_user_email_from_git()[1]
-    maintainer: str = get_user_email_from_git()[0]
-    maintainer_email: str = get_user_email_from_git()[1]
+    author: str = get_username_email_from_git()[0]
+    author_email: str = get_username_email_from_git()[1]
+    maintainer: str = get_username_email_from_git()[0]
+    maintainer_email: str = get_username_email_from_git()[1]
     license: str = ""
     classifiers: list[str] | None = None
     requires_dist: list[str] | None = None
@@ -79,10 +79,10 @@ def ring_info_json(
     keywords: list[str] | None = None,
     home_page: str = "",
     download_url: str = "",
-    author: str = get_user_email_from_git()[0],
-    author_email: str = get_user_email_from_git()[1],
-    maintainer: str = get_user_email_from_git()[0],
-    maintainer_email: str = get_user_email_from_git()[1],
+    author: str = get_username_email_from_git()[0],
+    author_email: str = get_username_email_from_git()[1],
+    maintainer: str = get_username_email_from_git()[0],
+    maintainer_email: str = get_username_email_from_git()[1],
     license: str = "",
     classifiers: list[str] | None = None,
     requires_dist: list[str] | None = None,
