@@ -104,6 +104,7 @@ def ring_info_json(
     Returns:
         str: The JSON representation of the ring information.
     """
+    # TODO: check classifiers using https://pypi.org/classifiers/
     if use_get_platform:
         if platforms is None:
             platforms = [get_platform()]
