@@ -8,7 +8,7 @@ from mups.core import (
     is_valid_email,
     is_valid_name,
     is_valid_version,
-    ring_info_json,
+    ring_info,
 )
 
 
@@ -60,11 +60,12 @@ def test_get_username_email_from_git():
         assert get_username_email_from_git() == ("", "")
 
 
-def test_ring_info_json():
-    ring_info_json("test", "1")
+def test_ring_info():
+    assert ring_info("test", "1")
+    assert ring_info("test", "1", format="json")
 
     with pytest.raises(AssertionError):
-        ring_info_json("*test", "1")  # Wrong name
+        ring_info("*test", "1")  # Wrong name
 
     with pytest.raises(AssertionError):
-        ring_info_json("test", "*1")  # Wrong version
+        ring_info("test", "*1")  # Wrong version

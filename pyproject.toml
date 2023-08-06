@@ -6,9 +6,9 @@ authors = [
     {name = "Drunkwcodes", email = "drunkwcodes@gmail.com"},
 ]
 dependencies = [
-    "pyserde>=0.12.2",
     "packaging>=23.1",
     "tomlkit>=0.12.1",
+    "mashumaro[toml]>=3.9",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

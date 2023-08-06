@@ -4,9 +4,9 @@ import subprocess
 from dataclasses import dataclass
 from sysconfig import get_platform
 
+from mashumaro.mixins.json import DataClassJSONMixin
+from mashumaro.mixins.toml import DataClassTOMLMixin
 from packaging.version import InvalidVersion, Version
-from serde import serde
-from serde.json import to_json
 
 
 def get_username_email_from_git() -> tuple[str, str]:
@@ -31,9 +31,8 @@ def get_username_email_from_git() -> tuple[str, str]:
     return username, email
 
 
-@serde
 @dataclass
-class RingInfo:
+class RingInfo(DataClassTOMLMixin, DataClassJSONMixin):
     """Confrom mojo core-metadata"""
 
     name: str
@@ -65,7 +64,7 @@ class RingInfo:
     file_name: str = ""
 
 
-def ring_info_json(
+def ring_info(
     name: str,
     version: str,
     metadata_version: str = "0.1",
@@ -95,6 +94,7 @@ def ring_info_json(
     file_name: str = "",
     use_get_platform=True,
     create_filename=True,
+    format="toml",
 ):
     """
     Generates the JSON representation of the ring information.
@@ -152,7 +152,10 @@ def ring_info_json(
         obsoletes_dist=obsoletes_dist,
         file_name=file_name,
     )
-    return to_json(ring_info)
+    if format.lower() == "toml":
+        return ring_info.to_toml()
+    elif format.lower() == "json":
+        return ring_info.to_json()
 
 
 # Follow https://peps.python.org/pep-0508/#names
