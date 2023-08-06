@@ -1,0 +1,1 @@
+Start to use `mashumaro` lib to serialize RingInfo to TOML!
