@@ -9,6 +9,7 @@ from mups.core import (
     is_valid_name,
     is_valid_version,
     ring_info,
+    ring_file_name,
 )
 
 
@@ -72,3 +73,7 @@ def test_ring_info():
 
     with pytest.raises(AssertionError):
         ring_info("test", "*1")  # Wrong version
+
+def test_ring_file_name():
+    assert ring_file_name("test", "1") == "test-1.ring"
+    assert ring_file_name("test", "1", ["mac"]) == "test-1-mac.ring"

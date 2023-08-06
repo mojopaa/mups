@@ -207,6 +207,10 @@ def is_email(email: str) -> bool:
     return bool(re.match(EMAIL_RE, email))
 
 
-def ring_file_name(name, version, platforms):
+def ring_file_name(name: str, version: str, platforms: list[str] | None = None) -> str:
     # TODO: reference: https://github.com/pypa/wheel/blob/main/src/wheel/vendored/packaging/tags.py
+    if platforms is None:
+        platforms = []
+    elif type(platforms) == str:
+        platforms = [platforms]
     return "-".join([name, version, *platforms]) + ".ring"
