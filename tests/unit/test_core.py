@@ -64,6 +64,9 @@ def test_ring_info():
     assert ring_info("test", "1")
     assert ring_info("test", "1", format="json")
 
+    r = RingInfo(name="test", version="1")
+    assert RingInfo.from_toml(r.to_toml()) == r
+
     with pytest.raises(AssertionError):
         ring_info("*test", "1")  # Wrong name
 
