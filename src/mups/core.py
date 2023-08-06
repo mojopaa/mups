@@ -116,9 +116,9 @@ def ring_info(
 
     assert is_valid_name(name), f"Name does not conform PEP 508."
     if author_email:
-        assert is_valid_email(author_email), f"Email format does not follow RFC 5322."
+        assert is_email(author_email), f"Email format does not follow RFC 5322."
     if maintainer_email:
-        assert is_valid_email(
+        assert is_email(
             maintainer_email
         ), f"Email format does not follow RFC 5322."
     if version:
@@ -203,7 +203,7 @@ def is_valid_version(v: str) -> bool:
 EMAIL_RE = r'(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])'
 
 
-def is_valid_email(email: str) -> bool:
+def is_email(email: str) -> bool:
     return bool(re.match(EMAIL_RE, email))
 
 

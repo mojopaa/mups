@@ -5,7 +5,7 @@ import pytest
 from mups.core import (
     RingInfo,
     get_username_email_from_git,
-    is_valid_email,
+    is_email,
     is_valid_name,
     is_valid_version,
     ring_info,
@@ -30,17 +30,17 @@ def test_is_valid_version():
     assert is_valid_version("2023.01.23") == True
 
 
-def test_is_valid_email():
-    assert is_valid_email("sometest@gmail.com") == True
-    assert is_valid_email("some+test@gmail.com") == True
-    assert is_valid_email("stuart.sillitoe@prodirectsport.net") == True
-    assert is_valid_email("_valid@mail.com") == True
-    assert is_valid_email("also+valid@domain.com") == True
-    assert is_valid_email("invalíd@mail.com") == False
-    assert is_valid_email('invalid%$£"@domain.com') == False
-    assert is_valid_email("invalid£@domain.com") == False
-    assert is_valid_email("valid%$@domain.com") == True
-    assert is_valid_email('invali"d@domain.com') == False
+def test_is_email():
+    assert is_email("sometest@gmail.com") == True
+    assert is_email("some+test@gmail.com") == True
+    assert is_email("stuart.sillitoe@prodirectsport.net") == True
+    assert is_email("_valid@mail.com") == True
+    assert is_email("also+valid@domain.com") == True
+    assert is_email("invalíd@mail.com") == False
+    assert is_email('invalid%$£"@domain.com') == False
+    assert is_email("invalid£@domain.com") == False
+    assert is_email("valid%$@domain.com") == True
+    assert is_email('invali"d@domain.com') == False
 
 
 def test_RingInfo():
