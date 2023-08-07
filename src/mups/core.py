@@ -163,12 +163,13 @@ def ring_info(
         obsoletes_dist=obsoletes_dist,
         file_name=file_name,
     )
-    if format.lower() == "toml":
+    if format is None:
+        return ring_info
+    elif format.lower() == "toml":
         return ring_info.to_toml()
     elif format.lower() == "json":
         return ring_info.to_json()
-    elif format is None:
-        return ring_info
+    
 
 
 # Follow https://peps.python.org/pep-0508/#names
