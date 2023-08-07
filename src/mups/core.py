@@ -108,7 +108,7 @@ def ring_info(
         create_filename (bool, optional): Whether to create a file name. Defaults to True.
         format (str, optional): The format of the function. Defaults to None.
         Options include "toml" and "json".
-        
+
 
     Returns:
         Union[str, RingInfo]: The generated function comment.
@@ -116,7 +116,7 @@ def ring_info(
     Raises:
         AssertionError: If any of the assertions fail.
     """
-    
+
     # TODO: check classifiers using https://pypi.org/classifiers/
     if use_get_platform:
         if platforms is None:
@@ -169,7 +169,6 @@ def ring_info(
         return ring_info.to_toml()
     elif format.lower() == "json":
         return ring_info.to_json()
-    
 
 
 # Follow https://peps.python.org/pep-0508/#names
