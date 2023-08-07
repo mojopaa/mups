@@ -94,16 +94,29 @@ def ring_info(
     file_name: str = "",
     use_get_platform=True,
     create_filename=True,
-    format="toml",
+    format=None,
 ):
     """
-    Generates the JSON representation of the ring information.
-    It is the public API for initing RingInfo.
+    Generates the function comment for the given function body.
 
+    Args:
+        name (str): The name of the function.
+        version (str): The version of the function.
+        metadata_version (str, optional): The metadata version of the function. Defaults to "0.1".
+        **kwargs: Additional keyword arguments. Same as RingInfo.
+        use_get_platform (bool, optional): Whether to use get_platform(). Defaults to True.
+        create_filename (bool, optional): Whether to create a file name. Defaults to True.
+        format (str, optional): The format of the function. Defaults to None.
+        Options include "toml" and "json".
+        
 
     Returns:
-        str: The JSON representation of the ring information.
+        Union[str, RingInfo]: The generated function comment.
+
+    Raises:
+        AssertionError: If any of the assertions fail.
     """
+    
     # TODO: check classifiers using https://pypi.org/classifiers/
     if use_get_platform:
         if platforms is None:
@@ -154,6 +167,8 @@ def ring_info(
         return ring_info.to_toml()
     elif format.lower() == "json":
         return ring_info.to_json()
+    elif format is None:
+        return ring_info
 
 
 # Follow https://peps.python.org/pep-0508/#names
