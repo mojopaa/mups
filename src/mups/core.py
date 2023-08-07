@@ -114,15 +114,13 @@ def ring_info(
     if create_filename and not file_name:
         file_name = ring_file_name(name=name, version=version, platforms=platforms)
 
-    assert is_valid_name(name), f"Name does not conform PEP 508."
+    assert is_valid_name(name), "Name does not conform PEP 508."
     if author_email:
-        assert is_email(author_email), f"Email format does not follow RFC 5322."
+        assert is_email(author_email), "Email format does not follow RFC 5322."
     if maintainer_email:
-        assert is_email(
-            maintainer_email
-        ), f"Email format does not follow RFC 5322."
+        assert is_email(maintainer_email), "Email format does not follow RFC 5322."
     if version:
-        assert is_valid_version(version), f"Name does not conform PEP 440."
+        assert is_valid_version(version), "Name does not conform PEP 440."
 
     ring_info = RingInfo(
         name=name,

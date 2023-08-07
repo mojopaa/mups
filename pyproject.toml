@@ -27,6 +27,7 @@ dev = [
     "requests>=2.31.0",
     "requests-toolbelt>=1.0.0",
     "towncrier>=23.6.0",
+    "ruff>=0.0.282",
 ]
 
 [tool.towncrier]
@@ -35,3 +36,10 @@ package_dir = "src"
 name = "MUPS"
 directory = "news"
 filename = "CHANGELOG.md"
+
+[tool.ruff]
+ignore = ["E712", "F401", "E501"]
+
+# E712 [*] Comparison to `True` should be `cond is True` or `if cond:`
+# F401 [*] `.core.is_valid_name` imported but unused
+# E501 Line too long (442 > 88 characters)
