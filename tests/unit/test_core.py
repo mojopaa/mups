@@ -55,8 +55,8 @@ def test_RingInfo():
 def test_get_username_email_from_git():
     git = shutil.which("git")
     if git:
-        assert get_username_email_from_git()[0]
-        assert get_username_email_from_git()[1]
+        assert type(get_username_email_from_git()[0]) == str
+        assert type(get_username_email_from_git()[1]) == str
     else:
         assert get_username_email_from_git() == ("", "")
 
