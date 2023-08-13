@@ -136,11 +136,7 @@ def ring_info(
     if author_email:
         assert is_email(author_email), "Email format does not follow RFC 5322."
     if maintainer_email:
-<<<<<<< HEAD
         assert is_email(maintainer_email), "Email format does not follow RFC 5322."
-=======
-        assert is_email(maintainer_email), f"Email format does not follow RFC 5322."
->>>>>>> 80fb622 (Add parse_ring_filename(untested, WIP))
     if version:
         assert is_valid_version(version), "Name does not conform PEP 440."
 
