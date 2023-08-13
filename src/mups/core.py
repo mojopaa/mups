@@ -3,10 +3,15 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 from sysconfig import get_platform
+from typing import Tuple, Union, cast
 
 from mashumaro.mixins.json import DataClassJSONMixin
 from mashumaro.mixins.toml import DataClassTOMLMixin
+from packaging.tags import parse_tag
+from packaging.utils import canonicalize_name
 from packaging.version import InvalidVersion, Version
+
+from .utils import InvalidRingFilename
 
 
 def get_username_email_from_git() -> tuple[str, str]:
@@ -131,7 +136,11 @@ def ring_info(
     if author_email:
         assert is_email(author_email), "Email format does not follow RFC 5322."
     if maintainer_email:
+<<<<<<< HEAD
         assert is_email(maintainer_email), "Email format does not follow RFC 5322."
+=======
+        assert is_email(maintainer_email), f"Email format does not follow RFC 5322."
+>>>>>>> 80fb622 (Add parse_ring_filename(untested, WIP))
     if version:
         assert is_valid_version(version), "Name does not conform PEP 440."
 
@@ -222,8 +231,48 @@ def is_email(email: str) -> bool:
 
 def ring_file_name(name: str, version: str, platforms: list[str] | None = None) -> str:
     # TODO: reference: https://github.com/pypa/wheel/blob/main/src/wheel/vendored/packaging/tags.py
+    # TODO: conform with parse_ring_filename()
     if platforms is None:
         platforms = []
     elif type(platforms) == str:
         platforms = [platforms]
     return "-".join([name, version, *platforms]) + ".ring"
+
+
+def parse_ring_filename(
+    filename: str,
+):
+    # -> Tuple[NormalizedName, Version, BuildTag, FrozenSet[Tag]]
+    if not filename.endswith(".ring"):
+        raise InvalidRingFilename(
+            f"Invalid ring filename (extension must be '.ring'): {filename}"
+        )
+
+    filename = filename[:-4]
+    dashes = filename.count("-")
+    if dashes not in (4, 5):
+        raise InvalidRingFilename(
+            f"Invalid ring filename (wrong number of parts): {filename}"
+        )
+
+    parts = filename.split("-", dashes - 2)
+    name_part = parts[0]
+    # See PEP 427 for the rules on escaping the project name
+    if "__" in name_part or re.match(r"^[\w\d._]*$", name_part, re.UNICODE) is None:
+        raise InvalidRingFilename(f"Invalid project name: {filename}")
+    name = canonicalize_name(name_part)
+    version = Version(parts[1])
+    if dashes == 5:
+        build_part = parts[2]
+        _build_tag_regex = re.compile(r"(\d+)(.*)")
+        build_match = _build_tag_regex.match(build_part)
+        if build_match is None:
+            raise InvalidRingFilename(
+                f"Invalid build number: {build_part} in '{filename}'"
+            )
+        BuildTag = Union[Tuple[()], Tuple[int, str]]
+        build = cast(BuildTag, (int(build_match.group(1)), build_match.group(2)))
+    else:
+        build = ()
+    tags = parse_tag(parts[-1])
+    return (name, version, build, tags)

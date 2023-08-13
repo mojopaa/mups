@@ -8,8 +8,8 @@ from mups.core import (
     is_email,
     is_valid_name,
     is_valid_version,
-    ring_info,
     ring_file_name,
+    ring_info,
 )
 
 
