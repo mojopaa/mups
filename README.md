@@ -10,3 +10,7 @@
 - PEP 301: [Classifiers](https://www.python.org/dev/peps/pep-0301/#distutils-trove-classification)
 - PEP 643: Metadata for Package Source Distributions
 - PEP 685: Comparison of extra names for optional distribution dependencies
+
+### TODO
+
+- Follow PEP 427 Wheel Format
