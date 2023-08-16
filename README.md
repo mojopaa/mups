@@ -1,5 +1,6 @@
 # mups
 
+![](mups_logo.PNG)
 ### Following Standards
 
 - PEP 566, 643: RingInfo, aka Metadata for Mojo software packages is based on PEP 566
